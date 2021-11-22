@@ -11,17 +11,18 @@ func main() {
 	var number int
 	fmt.Println("Введите число")
 	fmt.Scanln(&number)
-	flag := false
+	isPrime := true
 	for i := 2; i <= number; i++ {
 		for j := 2; j <= i/2; j++ {
 			if i%j == 0 {
-				flag = true
+				isPrime = false
+				break
 			}
 		}
-		if !flag {
+		if isPrime {
 			fmt.Println("Простое число из заданного диапазона:", i)
 		}
-		flag = false
+		isPrime = true
 	}
 	//сложность вашего алгоритма - сколько операций нужно выполнить,
 	//чтобы найти все простые числа от 0 до N?

@@ -10,19 +10,24 @@ import (
 	"strconv"
 )
 
+var FibMap = map[int64]int64{
+	0: 0,
+	1: 1,
+}
+
 func numberFibonacci(num int64) int64 {
-	if num == 1 {
-		return 1
-	} else if num == 0 {
+	if num == 0 {
 		return 0
+	}
+	if _, ok := FibMap[num]; ok {
+		FibMap[num+1] = FibMap[num] + FibMap[num-1]
+		return FibMap[num]
 	}
 	return numberFibonacci(num-2) + numberFibonacci(num-1)
 }
 
 func main() {
 	defer fmt.Println("Goodbye")
-
-	valuesFib := map[int64]int64{}
 
 	for {
 		fmt.Println("(if you want exit -> please, enter 'Ctrl + D')\n" +
@@ -42,28 +47,19 @@ func main() {
 			continue
 		}
 
-		if _, ok := valuesFib[num]; ok {
-			fmt.Printf("Fibonacci number = %v\n", valuesFib[num])
+		switch {
+		// для положительных индексов
+		case num >= 0:
+			fmt.Printf("Fibonacci number = %v\n", numberFibonacci(num))
 			continue
-		} else {
-			switch {
-			// для положительных индексов
-			case num >= 0:
-				valuesFib[num] = numberFibonacci(num)
-				fmt.Printf("Fibonacci number = %v\n", valuesFib[num])
-				continue
-			// для отрицательных индексов
-			case num < 0:
-				if num%2 == 0 {
-					valuesFib[num] = numberFibonacci(-num) * (-1)
-					fmt.Printf("Fibonacci number = %v\n",
-						valuesFib[num])
-				} else {
-					valuesFib[num] = numberFibonacci(-num)
-					fmt.Printf("Fibonacci number = %v\n", valuesFib[num])
-				}
-				continue
+		// для отрицательных индексов
+		case num < 0:
+			if num%2 == 0 {
+				fmt.Printf("Fibonacci number = %v\n", (numberFibonacci(-num) * (-1)))
+			} else {
+				fmt.Printf("Fibonacci number = %v\n", numberFibonacci(-num))
 			}
+			continue
 		}
 	}
 }

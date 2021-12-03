@@ -18,9 +18,11 @@ var FibMap = map[int64]int64{
 func numberFibonacci(num int64) int64 {
 	if num == 0 {
 		return 0
+	} else if num == 1 {
+		return 1
 	}
-	if _, ok := FibMap[num]; ok {
-		FibMap[num+1] = FibMap[num] + FibMap[num-1]
+	if _, ok := FibMap[num-1]; ok {
+		FibMap[num] = FibMap[num-2] + FibMap[num-1]
 		return FibMap[num]
 	}
 	return numberFibonacci(num-2) + numberFibonacci(num-1)
